@@ -1,102 +1,103 @@
 <x-guest-layout>
-    
-    <!-- Hero Section -->
-    <div class="relative bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
-                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-                    <div class="text-center">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                            <span class="block">Welcome to</span>
-                            <span class="block text-orange-600">Counter-Strike 2</span>
-                        </h1>
-                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl">
-                            The next evolution of the world's most popular tactical shooter game.
-                        </p>
-                    </div>
-                </main>
-            </div>
-        </div>
-    </div>
-
-    <!-- Featured Content -->
-    <div class="bg-white">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <!-- Maps Card -->
-                <a href="{{ route('maps.index') }}" class="group">
-                    <div class="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
-                        <img src="{{ asset('images/cs2/maps/dust2.jpg') }}" 
-                             alt="CS2 Maps" 
-                             class="w-full h-48 object-cover">
-                        <div class="p-6 bg-orange-600">
-                            <h3 class="text-xl font-semibold text-white">Maps</h3>
-                            <p class="mt-2 text-orange-100">Explore classic and new competitive maps in CS2.</p>
-                            <div class="mt-4">
-                                <span class="text-sm text-white">
-                                    Learn more →
-                                </span>
-                            </div>
+    <!-- Main container with background -->
+    <div class="min-h-screen relative" style="background: url('/Pictures/background.jpg') center top -100px/cover no-repeat fixed;">
+        <!-- Optional dark overlay for better text readability -->
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        
+        <!-- Content -->
+        <div class="relative z-10">
+            <!-- Hero Section -->
+            <div class="max-w-7xl mx-auto">
+                <div class="pt-20 pb-8 sm:pt-24 sm:pb-16 md:pt-32 lg:pt-40 lg:pb-28 xl:pb-32">
+                    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div class="text-center">
+                            <h1 class="text-5xl tracking-tight font-extrabold text-white sm:text-6xl md:text-7xl lg:text-8xl">
+                                <span class="block mb-4">Welcome to</span>
+                                <span class="block text-orange-500">Counter-Strike 2</span>
+                            </h1>
                         </div>
-                    </div>
-                </a>
-
-                <!-- Weapons Card -->
-                <a href="{{ route('weapons.index') }}" class="group">
-                    <div class="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
-                        <img src="{{ asset('images/cs2/weapons/ak47.png') }}" 
-                             alt="CS2 Weapons" 
-                             class="w-full h-48 object-cover">
-                        <div class="p-6 bg-orange-600">
-                            <h3 class="text-xl font-semibold text-white">Weapons</h3>
-                            <p class="mt-2 text-orange-100">Master the arsenal of tactical weapons available in CS2.</p>
-                            <div class="mt-4">
-                                <span class="text-sm text-white">
-                                    Learn more →
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Community Card -->
-                <a href="{{ route('community.index') }}" class="group">
-                    <div class="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
-                        <img src="{{ asset('images/cs2/community/competitive.jpg') }}" 
-                             alt="CS2 Community" 
-                             class="w-full h-48 object-cover">
-                        <div class="p-6 bg-orange-600">
-                            <h3 class="text-xl font-semibold text-white">Community</h3>
-                            <p class="mt-2 text-orange-100">Connect with other CS2 players.</p>
-                            <div class="mt-4">
-                                <span class="text-sm text-white">
-                                    Learn more →
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                    </main>
+                </div>
             </div>
 
-            <!-- Call to Action -->
-            <div class="mt-12 text-center">
-                @auth
-                    <a href="{{ route('dashboard') }}" 
-                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
-                        Go to Dashboard
+            <!-- Cards Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Maps Card -->
+                    <a href="{{ route('maps.index') }}" class="group">
+                        <div class="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="/Pictures/maps.jpg" 
+                                 alt="CS2 Maps" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-6 bg-orange-600">
+                                <h3 class="text-xl font-semibold text-white">Maps</h3>
+                                <p class="mt-2 text-orange-100">Explore classic and new competitive maps in CS2.</p>
+                                <div class="mt-4">
+                                    <span class="text-sm text-white">
+                                        Learn more →
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </a>
-                @else
-                    <div class="space-x-4">
-                        <a href="{{ route('login') }}" 
+
+                    <!-- Weapons Card -->
+                    <a href="{{ route('weapons.index') }}" class="group">
+                        <div class="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="/Pictures/weapons.jpg" 
+                                 alt="CS2 Weapons" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-6 bg-orange-600">
+                                <h3 class="text-xl font-semibold text-white">Weapons</h3>
+                                <p class="mt-2 text-orange-100">Master the arsenal of tactical weapons available in CS2.</p>
+                                <div class="mt-4">
+                                    <span class="text-sm text-white">
+                                        Learn more →
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Community Card -->
+                    <a href="{{ route('community.index') }}" class="group">
+                        <div class="bg-white overflow-hidden shadow-lg rounded-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <img src="/Pictures/community.jpg" 
+                                 alt="CS2 Community" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-6 bg-orange-600">
+                                <h3 class="text-xl font-semibold text-white">Community</h3>
+                                <p class="mt-2 text-orange-100">Connect with other CS2 players.</p>
+                                <div class="mt-4">
+                                    <span class="text-sm text-white">
+                                        Learn more →
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="mt-12 text-center">
+                    @auth
+                        <a href="{{ route('dashboard') }}" 
                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
-                            Login
+                            Go to Dashboard
                         </a>
-                        <a href="{{ route('register') }}" 
-                           class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50">
-                            Register
-                        </a>
-                    </div>
-                @endauth
+                    @else
+                        <div class="space-x-4">
+                            <a href="{{ route('login') }}" 
+                               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" 
+                               class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50">
+                                Register
+                            </a>
+                        </div>
+                    @endauth
+                </div>
             </div>
         </div>
     </div>
