@@ -1,5 +1,8 @@
 <x-guest-layout>
-    <!-- Main container with background -->
+    @include('auth._login-modal')
+    @include('auth._register-modal')
+    
+   
     <div class="min-h-screen relative" style="background: url('/Pictures/background.jpg') center top -100px/cover no-repeat fixed;">
         <!-- Optional dark overlay for better text readability -->
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -87,18 +90,56 @@
                         </a>
                     @else
                         <div class="space-x-4">
-                            <a href="{{ route('login') }}" 
+                            <button onclick="openLoginModal()" 
                                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
                                 Login
-                            </a>
-                            <a href="{{ route('register') }}" 
+                            </button>
+                            <button onclick="openRegisterModal()" 
                                class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50">
                                 Register
-                            </a>
+                            </button>
                         </div>
                     @endauth
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Update JavaScript for both modals -->
+    <script>
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('register-modal').classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openRegisterModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+            document.getElementById('login-modal').classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('login-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+
+        document.getElementById('register-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRegisterModal();
+            }
+        });
+    </script>
 </x-guest-layout> 

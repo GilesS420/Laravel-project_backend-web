@@ -37,8 +37,14 @@
                             @auth
                                 <a href="{{ route('dashboard') }}" class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium">Dashboard</a>
                             @else
-                                <a href="{{ route('login') }}" class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium">Login</a>
-                                <a href="{{ route('register') }}" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm font-medium">Register</a>
+                                <button onclick="openLoginModal()" 
+                                     class="text-gray-800 hover:text-orange-600 px-3 py-2">
+                                    Login
+                                </button>
+                                 <button onclick="openRegisterModal()" 
+                                     class="text-gray-800 hover:text-orange-600 px-3 py-2">
+                                    Register
+                                </button>   
                             @endauth
                         </div>
                     </div>
