@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -35,15 +35,16 @@ Route::middleware('auth')->group(function () {
     })->name('community.index');
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', function () {
+Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
         return view('admin.dashboard');
-    })->name('admin.dashboard');
+    })->name('dashboard');
     
-    Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
-    Route::get('/admin/users/create', [AdminController::class, 'create'])->name('admin.users.create');
-    Route::post('/admin/users', [AdminController::class, 'store'])->name('admin.users.store');
-    Route::patch('/admin/users/{user}/toggle-admin', [AdminController::class, 'toggleAdmin'])->name('admin.users.toggle-admin');
+    // User management routes
+    Route::get('/users', [AdminController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [AdminController::class, 'create'])->name('users.create');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+    Route::patch('/users/{user}/toggle-admin', [AdminController::class, 'toggleAdmin'])->name('users.toggle-admin');
 });
 
 require __DIR__.'/auth.php';

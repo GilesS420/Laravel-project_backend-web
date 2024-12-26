@@ -13,7 +13,7 @@
                         @csrf
 
                         <!-- Name -->
-                        <div class="mt-4">
+                        <div>
                             <x-input-label for="name" :value="__('Name')" />
                             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -29,28 +29,35 @@
                         <!-- Password -->
                         <div class="mt-4">
                             <x-input-label for="password" :value="__('Password')" />
-                            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
+                            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mt-4">
+                            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                         </div>
 
                         <!-- Birthday -->
                         <div class="mt-4">
                             <x-input-label for="birthday" :value="__('Birthday')" />
-                            <x-text-input id="birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday')" required />
+                            <x-text-input id="birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday')" />
                             <x-input-error :messages="$errors->get('birthday')" class="mt-2" />
                         </div>
 
                         <!-- About -->
                         <div class="mt-4">
                             <x-input-label for="about" :value="__('About')" />
-                            <textarea id="about" name="about" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4" required>{{ old('about') }}</textarea>
+                            <textarea id="about" name="about" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4">{{ old('about') }}</textarea>
                             <x-input-error :messages="$errors->get('about')" class="mt-2" />
                         </div>
 
                         <!-- Is Admin -->
-                        <div class="mt-4">
+                        <div class="block mt-4">
                             <label class="inline-flex items-center">
-                                <input type="checkbox" name="is_admin" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <input type="checkbox" name="is_admin" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('is_admin') ? 'checked' : '' }}>
                                 <span class="ms-2 text-sm text-gray-600">{{ __('Admin User') }}</span>
                             </label>
                         </div>

@@ -18,7 +18,13 @@
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <form method="POST" action="{{ route('login') }}">
+            <!-- Add an error container -->
+            <div id="login-error" class="mb-4 hidden">
+                <div class="font-medium text-red-600"></div>
+            </div>
+
+            <!-- Modify the form to have an ID and prevent default submission -->
+            <form id="login-form" method="POST" action="{{ route('login') }}">
                 @csrf
 
                 <!-- Email Address -->
@@ -58,3 +64,37 @@
         </div>
     </div>
 </div>
+
+<!-- Add JavaScript at the bottom of the file -->
+<script>
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const errorDiv = document.getElementById('login-error');
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Redirect on success
+            window.location.reload();
+        } else {
+            // Show error message
+            errorDiv.classList.remove('hidden');
+            errorDiv.querySelector('div').textContent = data.message || 'Invalid credentials';
+        }
+    })
+    .catch(error => {
+        errorDiv.classList.remove('hidden');
+        errorDiv.querySelector('div').textContent = 'An error occurred. Please try again.';
+    });
+});
+</script>
