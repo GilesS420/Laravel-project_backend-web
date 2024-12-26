@@ -7,6 +7,8 @@ nmp run dev
 in another terminal to run the development server:
 php artisan serve
 
+If the admin account does not work imediatly, run php artisan db:seed this wil seed the database and the standart admin account will be in the Users table.
+
 when setting up the .env file, make sure FILESYSTEM_DISK is set to public instead of local
 
 Make sure both are running, otherwise the project won't be visible.
