@@ -33,16 +33,19 @@
                         <div class="hidden sm:flex sm:space-x-8 sm:items-center">
                             <a href="#" class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium">Maps</a>
                             <a href="#" class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium">Weapons</a>
-                            <a href="#" class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium">Community</a>
+                            <a href="{{ route('community.index') }}" 
+                               class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('community.*') ? 'border-b-2 border-orange-500' : '' }}">
+                                Community
+                            </a>
                             @auth
                                 <a href="{{ route('dashboard') }}" class="text-gray-900 hover:text-orange-600 px-3 py-2 text-sm font-medium">Dashboard</a>
                             @else
                                 <button onclick="openLoginModal()" 
-                                     class="text-gray-800 hover:text-orange-600 px-3 py-2">
+                                        class="text-gray-800 hover:text-orange-600 px-3 py-2">
                                     Login
                                 </button>
-                                 <button onclick="openRegisterModal()" 
-                                     class="text-gray-800 hover:text-orange-600 px-3 py-2">
+                                <button onclick="openRegisterModal()" 
+                                        class="text-gray-800 hover:text-orange-600 px-3 py-2">
                                     Register
                                 </button>   
                             @endauth

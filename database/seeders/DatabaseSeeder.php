@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
         // Create admin user
         User::create([
@@ -18,10 +18,6 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        // Create test user
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        
     }
 }

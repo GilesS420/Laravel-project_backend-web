@@ -1,73 +1,104 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create New User') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <form method="POST" action="{{ route('admin.users.store') }}">
-                        @csrf
+            <div class="bg-gray-100 overflow-hidden shadow-sm rounded-lg">
+                <div class="p-8">
+                    <!-- Back Button -->
+                    <div class="mb-6">
+                        <a href="{{ route('community.index') }}" 
+                           class="text-orange-600 hover:text-orange-700 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Back to Community
+                        </a>
+                    </div>
 
-                        <!-- Name -->
-                        <div>
-                            <x-input-label for="name" :value="__('Name')" />
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                        </div>
+                    <div class="bg-white rounded-lg p-6 shadow-sm">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Create New User</h2>
 
-                        <!-- Email -->
-                        <div class="mt-4">
-                            <x-input-label for="email" :value="__('Email')" />
-                            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
+                        <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-6">
+                            @csrf
 
-                        <!-- Password -->
-                        <div class="mt-4">
-                            <x-input-label for="password" :value="__('Password')" />
-                            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
+                            <!-- Name -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" name="name" id="name" required
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                @error('name')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <!-- Confirm Password -->
-                        <div class="mt-4">
-                            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                        </div>
+                            <!-- Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" id="email" required
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                @error('email')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <!-- Birthday -->
-                        <div class="mt-4">
-                            <x-input-label for="birthday" :value="__('Birthday')" />
-                            <x-text-input id="birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday')" />
-                            <x-input-error :messages="$errors->get('birthday')" class="mt-2" />
-                        </div>
+                            <!-- Password -->
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <input type="password" name="password" id="password" required
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                @error('password')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <!-- About -->
-                        <div class="mt-4">
-                            <x-input-label for="about" :value="__('About')" />
-                            <textarea id="about" name="about" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4">{{ old('about') }}</textarea>
-                            <x-input-error :messages="$errors->get('about')" class="mt-2" />
-                        </div>
+                            <!-- Confirm Password -->
+                            <div>
+                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation" required
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                @error('password_confirmation')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <!-- Is Admin -->
-                        <div class="block mt-4">
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" name="is_admin" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('is_admin') ? 'checked' : '' }}>
-                                <span class="ms-2 text-sm text-gray-600">{{ __('Admin User') }}</span>
-                            </label>
-                        </div>
+                            <!-- Date of Birth -->
+                            <div>
+                                <label for="birthday" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                <input type="date" name="birthday" id="birthday"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                @error('birthday')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <div class="flex items-center justify-end mt-4">
-                            <x-primary-button class="ms-4">
-                                {{ __('Create User') }}
-                            </x-primary-button>
-                        </div>
-                    </form>
+                            <!-- Description -->
+                            <div>
+                                <label for="about" class="block text-sm font-medium text-gray-700">Description</label>
+                                <textarea name="about" id="about" rows="4"
+                                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                                          placeholder="Tell us about this user..."></textarea>
+                                @error('about')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Admin Status -->
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" name="is_admin" id="is_admin" 
+                                       class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <label for="is_admin" class="text-sm font-medium text-gray-700">
+                                    Make this user an administrator
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="flex justify-end">
+                                <button type="submit" 
+                                        class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                    Create User
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
