@@ -43,28 +43,35 @@
                             @endauth
                         </div>
                         
-                        <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @forelse($newsItems as $item)
-                                <div class="bg-white rounded-lg p-6 shadow-sm">
-                                    <div class="flex justify-between items-start">
-                                        <h3 class="text-xl font-semibold text-gray-900">{{ $item->title }}</h3>
-                                        <span class="text-sm text-gray-500">
-                                            {{ $item->created_at->format('M d, Y') }}
-                                        </span>
-                                    </div>
-                                    <p class="mt-2 text-gray-600">{{ $item->content }}</p>
-                                    @if(Auth::check() && Auth::user()->is_admin)
-                                        <div class="mt-4 flex gap-2">
-                                            <button onclick="editNewsItem({{ $item->id }})" 
-                                                    class="text-orange-600 hover:text-orange-700">
-                                                Edit
-                                            </button>
-                                            <button onclick="deleteNewsItem({{ $item->id }})" 
-                                                    class="text-red-600 hover:text-red-700">
-                                                Delete
-                                            </button>
-                                        </div>
+                                <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+                                    @if($item->picture_path)
+                                        <img src="{{ Storage::url($item->picture_path) }}" 
+                                             alt="{{ $item->title }}"
+                                             class="w-full h-48 object-cover">
                                     @endif
+                                    <div class="p-6">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h3 class="text-xl font-semibold text-gray-900">{{ $item->title }}</h3>
+                                            <span class="text-sm text-gray-500">
+                                                {{ $item->created_at->diffForHumans() }}
+                                            </span>
+                                        </div>
+                                        <p class="text-gray-600">{{ $item->content }}</p>
+                                        @if(Auth::check() && Auth::user()->is_admin)
+                                            <div class="mt-4 flex gap-2">
+                                                <button onclick="editNewsItem({{ $item->id }})" 
+                                                        class="text-orange-600 hover:text-orange-700">
+                                                    Edit
+                                                </button>
+                                                <button onclick="deleteNewsItem({{ $item->id }})" 
+                                                        class="text-red-600 hover:text-red-700">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             @empty
                                 <p class="text-gray-600">No news items available at the moment.</p>
@@ -242,5 +249,26 @@
                 closeFaqModal();
             }
         }
+
+        document.getElementById('newsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                credentials: 'same-origin',
+            })
+            .then(response => response.json())
+            .then(data => {
+                closeNewsModal();
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
     </script>
 </x-app-layout> 

@@ -12,28 +12,11 @@ class CommunityController extends Controller
 {
     public function index()
     {
-        try {
-            $users = User::latest()->paginate(12);
-            $newsItems = collect();  // Start with empty collections
-            $faqItems = collect();
+        $newsItems = NewsItem::latest()->get(); // Order by latest first
+        $faqItems = FaqItem::all();
+        $users = User::paginate(10);
 
-            // Only try to get these if the tables exist
-            if (Schema::hasTable('news_items')) {
-                $newsItems = NewsItem::latest()->get();
-            }
-            if (Schema::hasTable('faq_items')) {
-                $faqItems = FaqItem::all();
-            }
-
-            return view('community.index', compact('users', 'newsItems', 'faqItems'));
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            return view('community.index', [
-                'users' => User::latest()->paginate(12),
-                'newsItems' => collect(),
-                'faqItems' => collect()
-            ]);
-        }
+        return view('community.index', compact('newsItems', 'faqItems', 'users'));
     }
 
     public function show(User $user)
