@@ -64,6 +64,8 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(
     Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
     Route::delete('/news/{newsItem}', [NewsController::class, 'destroy'])->name('news.destroy');
     Route::put('/news/{newsItem}', [NewsController::class, 'update'])->name('news.update');
+    Route::delete('/faq/{faqItem}', [FaqController::class, 'destroy'])->name('faq.destroy');
+    Route::put('/faq/{faqItem}', [FaqController::class, 'update'])->name('faq.update');
 });
 
 require __DIR__.'/auth.php';

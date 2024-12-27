@@ -35,7 +35,8 @@ class UserController extends Controller
 
             Log::info('User created:', ['user' => $user->toArray()]);
 
-            return redirect()->route('admin.users.index')
+            return redirect()->route('community.index')
+                ->with('activeTab', 'users')
                 ->with('success', 'User created successfully.');
 
         } catch (\Exception $e) {

@@ -119,7 +119,9 @@
                         
                         <div class="space-y-4">
                             @forelse($faqItems as $item)
-                                <div class="bg-white rounded-lg p-6 shadow-sm faq-item" data-category="{{ $item->category }}">
+                                <div class="bg-white rounded-lg p-6 shadow-sm faq-item" 
+                                     data-category="{{ $item->category }}"
+                                     data-faq-id="{{ $item->id }}">
                                     <div class="flex justify-between items-start">
                                         <h3 class="text-lg font-medium text-gray-900">{{ $item->question }}</h3>
                                         <span class="text-sm text-orange-600 font-medium">{{ $item->category }}</span>
@@ -262,6 +264,16 @@
 
         function closeFaqModal() {
             document.getElementById('faqModal').classList.add('hidden');
+            document.getElementById('faqForm').reset();
+            document.getElementById('faqModalTitle').textContent = 'Add FAQ Item';
+            
+            // Reset form action and remove method spoofing
+            const form = document.getElementById('faqForm');
+            form.action = "{{ route('faq.store') }}";
+            const methodInput = form.querySelector('input[name="_method"]');
+            if (methodInput) {
+                methodInput.remove();
+            }
         }
 
         // Close modals when clicking outside
@@ -361,10 +373,17 @@
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
-                    // Remove the news item from DOM immediately
+                    // Find and remove the news item element
                     const newsItem = document.querySelector(`[data-news-id="${id}"]`);
                     if (newsItem) {
-                        newsItem.remove();
+                        // Add a fade-out effect
+                        newsItem.style.transition = 'opacity 0.3s ease';
+                        newsItem.style.opacity = '0';
+                        
+                        // Remove the element after the fade animation
+                        setTimeout(() => {
+                            newsItem.remove();
+                        }, 300);
                     }
                 }
             })
@@ -420,6 +439,80 @@
                     item.classList.add('hidden');
                 }
             });
+        }
+
+        function deleteFaqItem(id) {
+            if (!confirm('Are you sure you want to delete this FAQ item?')) {
+                return;
+            }
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            
+            fetch(`/faq/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Find and remove the FAQ item element
+                    const faqItem = document.querySelector(`[data-faq-id="${id}"]`);
+                    if (faqItem) {
+                        // Add a fade-out effect
+                        faqItem.style.transition = 'opacity 0.3s ease';
+                        faqItem.style.opacity = '0';
+                        
+                        // Remove the element after the fade animation
+                        setTimeout(() => {
+                            faqItem.remove();
+                        }, 300);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete FAQ item');
+            });
+        }
+
+        function editFaqItem(id) {
+            // Get the FAQ item data
+            const faqItem = document.querySelector(`[data-faq-id="${id}"]`);
+            if (!faqItem) {
+                console.error('FAQ item not found');
+                return;
+            }
+
+            const question = faqItem.querySelector('h3').textContent;
+            const answer = faqItem.querySelector('p').textContent;
+            const category = faqItem.querySelector('span').textContent;
+
+            // Populate the modal with existing data
+            document.getElementById('faqModal').classList.remove('hidden');
+            document.getElementById('question').value = question;
+            document.getElementById('answer').value = answer;
+            document.getElementById('category').value = category;
+            
+            // Update form action and method for edit
+            const form = document.getElementById('faqForm');
+            form.action = `/faq/${id}`;
+            
+            // Add method spoofing for PUT request
+            let methodInput = form.querySelector('input[name="_method"]');
+            if (!methodInput) {
+                methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                form.appendChild(methodInput);
+            }
+            methodInput.value = 'PUT';
+
+            // Update modal title
+            document.getElementById('faqModalTitle').textContent = 'Edit FAQ Item';
         }
     </script>
 </x-app-layout> 
