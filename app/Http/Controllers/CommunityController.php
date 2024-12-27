@@ -7,6 +7,7 @@ use App\Models\NewsItem;
 use App\Models\FaqItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
 {

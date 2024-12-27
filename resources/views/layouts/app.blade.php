@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" data-is-admin="{{ json_encode(Auth::check() && Auth::user()->is_admin) }}">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 

@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\NewsItemSeeder;
+use Database\Seeders\FaqItemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +20,9 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        
+        $this->call([
+            NewsItemSeeder::class,
+            FaqItemSeeder::class,
+        ]);
     }
 }

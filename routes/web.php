@@ -62,6 +62,8 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->prefix
 Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
     Route::post('/news', [NewsController::class, 'store'])->name('news.store');
     Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
+    Route::delete('/news/{newsItem}', [NewsController::class, 'destroy'])->name('news.destroy');
+    Route::put('/news/{newsItem}', [NewsController::class, 'update'])->name('news.update');
 });
 
 require __DIR__.'/auth.php';

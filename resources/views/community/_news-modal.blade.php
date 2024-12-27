@@ -5,19 +5,19 @@
         <div class="relative bg-white rounded-lg max-w-lg w-full">
             <div class="p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Add News Item</h3>
-                <form id="newsForm" method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data">
+                <form id="newsForm" action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Title</label>
-                        <input type="text" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                        <input type="text" name="title" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Content</label>
-                        <textarea name="content" required rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+                        <textarea name="content" id="content" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Picture</label>
-                        <input type="file" name="picture" required accept="image/*" class="mt-1 block w-full">
+                        <label for="picture" class="block text-sm font-medium text-gray-700">Picture</label>
+                        <input type="file" name="picture" id="picture" accept="image/*" class="mt-1 block w-full">
                     </div>
                     <div class="flex justify-end gap-3">
                         <button type="button" onclick="closeNewsModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">

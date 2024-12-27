@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('question');
             $table->text('answer');
+            $table->string('category');
             $table->timestamps();
         });
     }

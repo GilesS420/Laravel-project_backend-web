@@ -15,6 +15,15 @@
                         <label class="block text-sm font-medium text-gray-700">Answer</label>
                         <textarea name="answer" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                     </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Category</label>
+                        <select name="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            <option value="Weapons">Weapons</option>
+                            <option value="Bugs">Bugs</option>
+                            <option value="Gameplay">Gameplay</option>
+                            <option value="Trading">Trading</option>
+                        </select>
+                    </div>
                     <div class="flex justify-end gap-3">
                         <button type="button" onclick="closeFaqModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
                             Cancel

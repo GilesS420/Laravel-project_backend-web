@@ -11,7 +11,8 @@ class FaqController extends Controller
     {
         $validated = $request->validate([
             'question' => 'required|max:255',
-            'answer' => 'required'
+            'answer' => 'required',
+            'category' => 'required|in:Weapons,Bugs,Gameplay,Trading'
         ]);
 
         FaqItem::create($validated);
