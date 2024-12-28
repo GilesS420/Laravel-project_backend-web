@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FaqController;
-
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.community.index');
 });
 
-
+// Admin routes
 Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -56,6 +56,13 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->prefix
     Route::get('/users/create', [AdminController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
     Route::patch('/users/{user}/toggle-admin', [AdminController::class, 'toggleAdmin'])->name('users.toggle-admin');
+
+    // Contact management routes
+    Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('contacts.show');
+    Route::post('/contacts/{contact}/respond', [App\Http\Controllers\Admin\ContactController::class, 'respond'])->name('contacts.respond');
+    Route::post('/contacts/{contact}/convert-to-faq', [App\Http\Controllers\Admin\ContactController::class, 'convertToFaq'])->name('contacts.convert-to-faq');
+    Route::delete('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
 });
 
 // Add routes for news and FAQ management (admin only)
@@ -67,5 +74,10 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(
     Route::delete('/faq/{faqItem}', [FaqController::class, 'destroy'])->name('faq.destroy');
     Route::put('/faq/{faqItem}', [FaqController::class, 'update'])->name('faq.update');
 });
+
+// User routes
+Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/contact/messages', [ContactController::class, 'index'])->name('contact.index')->middleware('auth');
 
 require __DIR__.'/auth.php';

@@ -40,6 +40,22 @@
                         :class="request()->routeIs('community.*') ? 'border-white' : 'border-transparent'">
                         {{ __('Community') }}
                     </x-nav-link>
+                    @auth
+                        @if(!Auth::user()->is_admin)
+                            <x-nav-link :href="route('contact.index')" :active="request()->routeIs('contact.*')"
+                                class="text-white hover:text-orange-100"
+                                :class="request()->routeIs('contact.*') ? 'border-white' : 'border-transparent'">
+                                {{ __('My Messages') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
+                    @if(Auth::user() && Auth::user()->is_admin)
+                        <x-nav-link :href="route('admin.contacts.index')" :active="request()->routeIs('admin.contacts.*')"
+                            class="text-white hover:text-orange-100"
+                            :class="request()->routeIs('admin.contacts.*') ? 'border-white' : 'border-transparent'">
+                            {{ __('Contact Messages') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
