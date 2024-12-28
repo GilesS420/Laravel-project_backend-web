@@ -9,6 +9,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\WeaponController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -36,7 +37,10 @@ Route::middleware('auth')->group(function () {
     })->name('maps.index');
 
     Route::get('/weapons', function () {
-        return view('weapons.index');
+        if (!Auth::check()) {
+            return response()->json(['message' => 'login_required'], 401);
+        }
+        return app(WeaponController::class)->index();
     })->name('weapons.index');
 
     Route::patch('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
@@ -79,5 +83,10 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/contact/messages', [ContactController::class, 'index'])->name('contact.index')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/weapons', [WeaponController::class, 'index'])->name('weapons.index');
+    Route::post('/weapons/{weapon}/favorite', [WeaponController::class, 'toggleFavorite'])->name('weapons.toggle-favorite');
+});
 
 require __DIR__.'/auth.php';

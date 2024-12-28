@@ -33,6 +33,8 @@
             </main>
         </div>
 
+        @include('auth._login-modal')
+
         <!-- Add Modal Control Scripts -->
         <script>
             function openLoginModal() {
@@ -69,6 +71,29 @@
                     closeRegisterModal();
                 }
             };
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Intercept clicks on protected routes
+                document.querySelectorAll('a[href*="weapons"]').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        if (!{{ auth()->check() ? 'true' : 'false' }}) {
+                            e.preventDefault();
+                            openLoginModal();
+                        }
+                    });
+                });
+
+                // Add fetch error handler for AJAX requests
+                window.addEventListener('fetch', function(event) {
+                    event.response.then(response => {
+                        if (response.status === 401) {
+                            openLoginModal();
+                        }
+                    });
+                });
+            });
         </script>
     </body>
 </html>

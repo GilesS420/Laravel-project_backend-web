@@ -8,7 +8,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-gray-100 dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <!-- Centered Tabs with Orange Theme -->
                 <div class="border-b border-gray-200 bg-white">
                     <nav class="flex justify-center" aria-label="Tabs">
@@ -33,7 +33,7 @@
                 </div>
 
                 <!-- Content sections with updated background -->
-                <div class="bg-gray-100">
+                <div class="bg-white">
                     <!-- News Content -->
                     <div id="news-content" class="tab-content p-8">
                         <div class="flex justify-between items-center mb-6">

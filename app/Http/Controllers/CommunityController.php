@@ -13,7 +13,7 @@ class CommunityController extends Controller
 {
     public function index()
     {
-        $newsItems = NewsItem::latest()->get(); // Order by latest first
+        $newsItems = NewsItem::latest()->get();
         $faqItems = FaqItem::all();
         $users = User::paginate(10);
 
@@ -22,6 +22,8 @@ class CommunityController extends Controller
 
     public function show(User $user)
     {
-        return view('community.show', compact('user'));
+        // Load the user's favorite weapons with their types
+        $favoriteWeapons = $user->favoriteWeapons()->get()->groupBy('type');
+        return view('community.show', compact('user', 'favoriteWeapons'));
     }
 } 

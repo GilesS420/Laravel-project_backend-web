@@ -25,14 +25,9 @@
                             {{ __('Home') }}
                         </x-nav-link>
                     @endauth
-                    <x-nav-link :href="route('maps.index')" :active="request()->routeIs('maps.*')"
+                    <x-nav-link :href="route('weapons.index')" :active="request()->routeIs('weapons.index')"
                         class="text-white hover:text-orange-100"
-                        :class="request()->routeIs('maps.*') ? 'border-white' : 'border-transparent'">
-                        {{ __('Maps') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('weapons.index')" :active="request()->routeIs('weapons.*')"
-                        class="text-white hover:text-orange-100"
-                        :class="request()->routeIs('weapons.*') ? 'border-white' : 'border-transparent'">
+                        :class="request()->routeIs('weapons.index') ? 'border-white' : 'border-transparent'">
                         {{ __('Weapons') }}
                     </x-nav-link>
                     <x-nav-link :href="route('community.index')" :active="request()->routeIs('community.*')"
@@ -131,10 +126,6 @@
                     {{ __('Home') }}
                 </x-responsive-nav-link>
             @endauth
-            <x-responsive-nav-link :href="route('maps.index')" :active="request()->routeIs('maps.*')"
-                class="text-white hover:text-orange-100 hover:bg-orange-700">
-                {{ __('Maps') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('weapons.index')" :active="request()->routeIs('weapons.*')"
                 class="text-white hover:text-orange-100 hover:bg-orange-700">
                 {{ __('Weapons') }}

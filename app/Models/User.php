@@ -49,4 +49,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function favoriteWeapons()
+    {
+        return $this->belongsToMany(Weapon::class, 'weapon_favorites')
+                    ->withTimestamps();
+    }
 }

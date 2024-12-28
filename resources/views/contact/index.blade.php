@@ -4,7 +4,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-semibold">My Contact Messages</h2>
+                        <h2 class="text-2xl font-semibold">My Messages To Admins</h2>
                         <a href="{{ route('contact.create') }}" 
                            class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md">
                             New Message
