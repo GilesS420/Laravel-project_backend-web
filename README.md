@@ -28,3 +28,4 @@ https://stackoverflow.com/questions/35301846/filtering-get-results-in-laravel
 https://w3schools.invisionzone.com/topic/59650-the-8-biggest-laravel-development-mistakes-you-can-easily-avoid/
 https://laravel.com/docs/11.x/seeding
 https://chatgpt.com/share/676ec913-aa0c-8010-b5d0-85e230ac1e6e
+https://www.w3.org/TR/SVG/
