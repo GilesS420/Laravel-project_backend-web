@@ -26,6 +26,17 @@
                             required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            
+            <div class="mt-2 text-sm text-white-600">
+                Password must contain:
+                <ul class="list-disc list-inside">
+                    <li>At least 8 characters</li>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one lowercase letter</li>
+                    <li>At least one number</li>
+                    <li>At least one special character</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Confirm Password -->

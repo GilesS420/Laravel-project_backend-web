@@ -10,7 +10,7 @@
                     @endif
 
                     <h2 class="text-2xl font-bold mb-6">CS2 Weapons</h2>
-
+                    <p class="text-gray-500>">Add the weapon to your public profile by clicking the star</p>
                     @if($weapons->isEmpty())
                         <p class="text-gray-500">No weapons available at this time.</p>
                     @else
@@ -59,14 +59,18 @@
                                             @auth
                                                 <form action="{{ route('weapons.toggle-favorite', $weapon) }}" 
                                                       method="POST" 
-                                                      class="absolute top-4 right-4">
+                                                      class="absolute top-1 right-1">
                                                     @csrf
                                                     <button type="submit" 
-                                                            class="text-gray-400 hover:text-yellow-400 transition-colors">
-                                                        <svg class="w-6 h-6 {{ $weapon->isFavoritedBy(auth()->user()) ? 'text-yellow-400' : '' }}" 
-                                                             fill="currentColor" 
-                                                             viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                            title="{{ $weapon->isFavoritedBy(auth()->user()) ? 'Remove from favorites' : 'Add to favorites'  }} "
+                                                            class="transition-colors">
+                                                        <svg class="w-6 h-6 {{ $weapon->isFavoritedBy(auth()->user()) ? 'text-orange-400' : 'text-gray-300' }} hover:text-orange-400"
+                                                             xmlns="http://www.w3.org/2000/svg" 
+                                                             viewBox="0 0 24 24" 
+                                                             fill="currentColor">
+                                                            <path fill-rule="evenodd" 
+                                                                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" 
+                                                                  clip-rule="evenodd" />
                                                         </svg>
                                                     </button>
                                                 </form>

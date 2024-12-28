@@ -35,8 +35,35 @@
                 <!-- Password -->
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" />
-                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" onkeyup="checkPassword(this.value)" />
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    
+                    <!-- Add password requirements with check indicators -->
+                    <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Password must contain:
+                        <ul class="list-disc list-inside">
+                            <li id="length-check" class="flex items-center gap-2">
+                                <span class="text-red-500" id="length-icon">✕</span>
+                                At least 8 characters
+                            </li>
+                            <li id="uppercase-check" class="flex items-center gap-2">
+                                <span class="text-red-500" id="uppercase-icon">✕</span>
+                                At least one uppercase letter
+                            </li>
+                            <li id="lowercase-check" class="flex items-center gap-2">
+                                <span class="text-red-500" id="lowercase-icon">✕</span>
+                                At least one lowercase letter
+                            </li>
+                            <li id="number-check" class="flex items-center gap-2">
+                                <span class="text-red-500" id="number-icon">✕</span>
+                                At least one number
+                            </li>
+                            <li id="special-check" class="flex items-center gap-2">
+                                <span class="text-red-500" id="special-icon">✕</span>
+                                At least one special character
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Confirm Password -->
@@ -59,3 +86,66 @@
         </div>
     </div>
 </div> 
+
+<script>
+function checkPassword(password) {
+    // Check length
+    const lengthValid = password.length >= 8;
+    document.getElementById('length-icon').textContent = lengthValid ? '✓' : '✕';
+    document.getElementById('length-icon').className = lengthValid ? 'text-green-500' : 'text-red-500';
+
+    // Check uppercase
+    const uppercaseValid = /[A-Z]/.test(password);
+    document.getElementById('uppercase-icon').textContent = uppercaseValid ? '✓' : '✕';
+    document.getElementById('uppercase-icon').className = uppercaseValid ? 'text-green-500' : 'text-red-500';
+
+    // Check lowercase
+    const lowercaseValid = /[a-z]/.test(password);
+    document.getElementById('lowercase-icon').textContent = lowercaseValid ? '✓' : '✕';
+    document.getElementById('lowercase-icon').className = lowercaseValid ? 'text-green-500' : 'text-red-500';
+
+    // Check numbers
+    const numberValid = /[0-9]/.test(password);
+    document.getElementById('number-icon').textContent = numberValid ? '✓' : '✕';
+    document.getElementById('number-icon').className = numberValid ? 'text-green-500' : 'text-red-500';
+
+    // Check special characters
+    const specialValid = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    document.getElementById('special-icon').textContent = specialValid ? '✓' : '✕';
+    document.getElementById('special-icon').className = specialValid ? 'text-green-500' : 'text-red-500';
+}
+
+function handleRegistration(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json',
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            // Show success message
+            document.getElementById('registration-success').classList.remove('hidden');
+            
+            // Optional: Close modal and redirect after a delay
+            setTimeout(() => {
+                window.location.href = '/dashboard'; // or wherever you want to redirect
+            }, 2000);
+        } else {
+            throw new Error('Registration failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error case if needed
+    });
+}
+</script> 
