@@ -16,7 +16,7 @@
                             <button onclick="switchTab('news')" 
                                     class="tab-button whitespace-nowrap py-6 px-6 text-lg font-medium transition-colors duration-200 border-b-2 border-transparent hover:border-orange-500"
                                     id="news-tab">
-                                News Items
+                                News
                             </button>
                             <button onclick="switchTab('faq')"
                                     class="tab-button whitespace-nowrap py-6 px-6 text-lg font-medium transition-colors duration-200 border-b-2 border-transparent hover:border-orange-500"
