@@ -3,6 +3,9 @@
 @inject('storage', 'Illuminate\Support\Facades\Storage')
 
 <x-app-layout data-is-admin="{{ $auth::check() && $auth::user()->is_admin ? 'true' : 'false' }}">
+    @include('auth._login-modal')
+    @include('auth._register-modal')
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-100 dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">

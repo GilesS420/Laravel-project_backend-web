@@ -32,5 +32,43 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Add Modal Control Scripts -->
+        <script>
+            function openLoginModal() {
+                document.getElementById('login-modal').classList.remove('hidden');
+                document.getElementById('register-modal').classList.add('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLoginModal() {
+                document.getElementById('login-modal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            function openRegisterModal() {
+                document.getElementById('register-modal').classList.remove('hidden');
+                document.getElementById('login-modal').classList.add('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeRegisterModal() {
+                document.getElementById('register-modal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Close modals when clicking outside
+            window.onclick = function(event) {
+                const loginModal = document.getElementById('login-modal');
+                const registerModal = document.getElementById('register-modal');
+                
+                if (event.target === loginModal) {
+                    closeLoginModal();
+                }
+                if (event.target === registerModal) {
+                    closeRegisterModal();
+                }
+            };
+        </script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
     @include('auth._login-modal')
     @include('auth._register-modal')
     
@@ -142,4 +142,4 @@
             }
         });
     </script>
-</x-guest-layout> 
+</x-app-layout> 
