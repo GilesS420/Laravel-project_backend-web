@@ -1,3 +1,19 @@
+Before cloning and setting up this project, make sure you have Laravel and Composer installed (preferably in the directory where you will clone this project)
+composer install
+composer global require laravel/installer
+
+when installed you need to setup an .env file (you can copy the .env.example file)
+in the .env file, make sure you have this with the right values of your database
+
+DB_CONNECTION=
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+
+Run: php artisan key:generate to generate an APP_KEY. witouht this the page will an internal server error and imply that No application encryption key has been specified.
+
 Navigate to the project with cd .../Laravel-project_backend-web with ... being the directory this project is installed at
 
 to install frontedn assets:
