@@ -65,36 +65,46 @@
     </div>
 </div>
 
-<!-- Add JavaScript at the bottom of the file -->
+
 <script>
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const form = this;
     const errorDiv = document.getElementById('login-error');
-    
+    const formData = new FormData(form);
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
     fetch(form.action, {
         method: 'POST',
-        body: new FormData(form),
+        body: formData,
         headers: {
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
         },
         credentials: 'same-origin'
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Redirect on success
-            window.location.reload();
-        } else {
-            // Show error message
-            errorDiv.classList.remove('hidden');
-            errorDiv.querySelector('div').textContent = data.message || 'Invalid credentials';
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
         }
+        
+        if (response.ok) {
+            // If login was successful but no redirect
+            window.location.reload();
+            return;
+        }
+        
+        return response.json().then(data => {
+            throw data;
+        });
     })
     .catch(error => {
         errorDiv.classList.remove('hidden');
-        errorDiv.querySelector('div').textContent = 'An error occurred. Please try again.';
+        errorDiv.querySelector('div').textContent = 
+            error.message || 'An error occurred. Please try again.';
     });
 });
 </script>

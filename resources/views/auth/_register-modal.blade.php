@@ -134,32 +134,27 @@ function handleRegistration(event) {
     errorList.innerHTML = '';
     errorTitle.textContent = '';
 
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     fetch(form.action, {
         method: 'POST',
         body: formData,
         headers: {
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
             'X-Requested-With': 'XMLHttpRequest',
             'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
         },
         credentials: 'same-origin'
     })
     .then(async response => {
-        // Parse JSON response, even if it's an error response
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+        
         const data = await response.json();
-        if (!response.ok) {
-            throw data;
-        }
-        return data;
-    })
-    .then(data => {
-        if (data.success) {
-            // Registration successful
-            window.location.href = '/dashboard';
-        }
+        throw data;
     })
     .catch(error => {
-        console.error('Error:', error);
         errorDiv.classList.remove('hidden');
         
         if (error.errors) {
