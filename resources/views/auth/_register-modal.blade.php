@@ -135,6 +135,7 @@ function handleRegistration(event) {
     errorTitle.textContent = '';
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
     fetch(form.action, {
         method: 'POST',
         body: formData,
