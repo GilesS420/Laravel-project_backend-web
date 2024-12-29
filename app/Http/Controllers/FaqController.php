@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FaqItem;
+use App\Models\FaqCategory;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
@@ -12,7 +13,7 @@ class FaqController extends Controller
         $validated = $request->validate([
             'question' => 'required|max:255',
             'answer' => 'required',
-            'category' => 'required|in:Weapons,Bugs,Gameplay,Trading'
+            'category' => 'required|exists:faq_categories,name'
         ]);
 
         FaqItem::create($validated);
@@ -24,7 +25,7 @@ class FaqController extends Controller
         $validated = $request->validate([
             'question' => 'required|max:255',
             'answer' => 'required',
-            'category' => 'required|in:Weapons,Bugs,Gameplay,Trading'
+            'category' => 'required|exists:faq_categories,name'
         ]);
 
         $faqItem->update($validated);
@@ -44,5 +45,29 @@ class FaqController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete FAQ item'], 500);
         }
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:faq_categories,name'
+        ]);
+
+        $category = FaqCategory::create([
+            'name' => $request->name
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'category' => $category
+        ]);
+    }
+
+    public function index()
+    {
+        $faqs = FaqItem::all();
+        $categories = FaqCategory::all();
+        
+        return view('community.faq', compact('faqs', 'categories'));
     }
 } 

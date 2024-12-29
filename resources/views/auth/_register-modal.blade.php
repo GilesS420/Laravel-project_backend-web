@@ -15,7 +15,12 @@
             <!-- Title -->
             <h2 class="text-2xl font-bold mb-6 text-center dark:text-white">Register</h2>
 
-            <form method="POST" action="{{ route('register') }}">
+            <div id="ajax-validation-errors" class="mb-4 hidden">
+                <div class="font-medium text-red-600 dark:text-red-400"></div>
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600 dark:text-red-400"></ul>
+            </div>
+
+            <form method="POST" action="{{ route('register') }}" onsubmit="handleRegistration(event)">
                 @csrf
 
                 <!-- Name -->
@@ -120,32 +125,57 @@ function handleRegistration(event) {
     
     const form = event.target;
     const formData = new FormData(form);
+    const errorDiv = document.getElementById('ajax-validation-errors');
+    const errorList = errorDiv.querySelector('ul');
+    const errorTitle = errorDiv.querySelector('div');
+
+    // Clear previous errors
+    errorDiv.classList.add('hidden');
+    errorList.innerHTML = '';
+    errorTitle.textContent = '';
 
     fetch(form.action, {
         method: 'POST',
         body: formData,
         headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
             'X-Requested-With': 'XMLHttpRequest',
             'Accept': 'application/json',
         },
         credentials: 'same-origin'
     })
-    .then(response => {
-        if (response.ok) {
-            // Show success message
-            document.getElementById('registration-success').classList.remove('hidden');
-            
-            // Optional: Close modal and redirect after a delay
-            setTimeout(() => {
-                window.location.href = '/dashboard'; // or wherever you want to redirect
-            }, 2000);
-        } else {
-            throw new Error('Registration failed');
+    .then(async response => {
+        // Parse JSON response, even if it's an error response
+        const data = await response.json();
+        if (!response.ok) {
+            throw data;
+        }
+        return data;
+    })
+    .then(data => {
+        if (data.success) {
+            // Registration successful
+            window.location.href = '/dashboard';
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        // Handle error case if needed
+        errorDiv.classList.remove('hidden');
+        
+        if (error.errors) {
+            // Validation errors
+            errorTitle.textContent = 'Whoops! Something went wrong.';
+            Object.keys(error.errors).forEach(field => {
+                error.errors[field].forEach(message => {
+                    const li = document.createElement('li');
+                    li.textContent = message;
+                    errorList.appendChild(li);
+                });
+            });
+        } else {
+            // Generic error
+            errorTitle.textContent = 'An error occurred. Please try again.';
+        }
     });
 }
 </script> 

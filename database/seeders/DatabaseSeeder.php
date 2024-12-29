@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\NewsItemSeeder;
 use Database\Seeders\FaqItemSeeder;
+use Database\Seeders\WeaponSeeder;
+use Database\Seeders\FaqCategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             NewsItemSeeder::class,
             FaqItemSeeder::class,
+            WeaponSeeder::class,
+            FaqCategorySeeder::class,
         ]);
     }
 }

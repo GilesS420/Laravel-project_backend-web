@@ -89,27 +89,19 @@
                         <div class="flex justify-between items-center mb-6">
                             <div>
                                 <h2 class="text-2xl font-bold">Frequently Asked Questions</h2>
-                                <div class="mt-4 flex gap-2">
-                                    <button onclick="filterFaqs('all')" 
-                                            class="faq-filter px-3 py-1 rounded-full text-sm font-medium bg-orange-500 text-white">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <button onclick="filterFAQs('all')" 
+                                            class="px-4 py-2 text-sm font-medium rounded-md filter-btn bg-gray-100 hover:bg-gray-200 transition-colors"
+                                            data-category="all">
                                         All
                                     </button>
-                                    <button onclick="filterFaqs('Weapons')" 
-                                            class="faq-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-700">
-                                        Weapons
-                                    </button>
-                                    <button onclick="filterFaqs('Bugs')" 
-                                            class="faq-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-700">
-                                        Bugs
-                                    </button>
-                                    <button onclick="filterFaqs('Gameplay')" 
-                                            class="faq-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-700">
-                                        Gameplay
-                                    </button>
-                                    <button onclick="filterFaqs('Trading')" 
-                                            class="faq-filter px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-700">
-                                        Trading
-                                    </button>
+                                    @foreach($categories as $category)
+                                        <button onclick="filterFAQs('{{ $category->name }}')" 
+                                                class="px-4 py-2 text-sm font-medium rounded-md filter-btn bg-gray-100 hover:bg-gray-200 transition-colors"
+                                                data-category="{{ $category->name }}">
+                                            {{ $category->name }}
+                                        </button>
+                                    @endforeach
                                 </div>
                             </div>
                             @if($auth::check() && $auth::user()->is_admin)
@@ -121,22 +113,20 @@
                         </div>
                         
                         <div class="space-y-4">
-                            @forelse($faqItems as $item)
-                                <div class="bg-white rounded-lg p-6 shadow-sm faq-item" 
-                                     data-category="{{ $item->category }}"
-                                     data-faq-id="{{ $item->id }}">
+                            @forelse($faqItems as $faq)
+                                <div class="faq-item mb-4" data-category="{{ $faq->category }}" data-faq-id="{{ $faq->id }}">
                                     <div class="flex justify-between items-start">
-                                        <h3 class="text-lg font-medium text-gray-900">{{ $item->question }}</h3>
-                                        <span class="text-sm text-orange-600 font-medium">{{ $item->category }}</span>
+                                        <h3 class="text-lg font-medium text-gray-900">{{ $faq->question }}</h3>
+                                        <span class="text-sm text-orange-600 font-medium">{{ $faq->category }}</span>
                                     </div>
-                                    <p class="mt-2 text-gray-600">{{ $item->answer }}</p>
+                                    <p class="mt-2 text-gray-600">{{ $faq->answer }}</p>
                                     @if($auth::check() && $auth::user()->is_admin)
                                         <div class="mt-4 flex gap-2">
-                                            <button onclick="editFaqItem('{{ $item->id }}')" 
+                                            <button onclick="editFaqItem('{{ $faq->id }}')" 
                                                     class="text-orange-600 hover:text-orange-700">
                                                 Edit
                                             </button>
-                                            <button onclick="deleteFaqItem('{{ $item->id }}')" 
+                                            <button onclick="deleteFaqItem('{{ $faq->id }}')" 
                                                     class="text-red-600 hover:text-red-700">
                                                 Delete
                                             </button>
@@ -341,14 +331,11 @@
                             </div>
                         </div>
                     `;
-                    
-                    // Add the new item to the beginning of the list
+
                     newsContainer.insertBefore(newsElement, newsContainer.firstChild);
                     
-                    // Close the modal
-                    closeNewsModal();
                     
-                    // Reset the form
+                    closeNewsModal();                   
                     this.reset();
                 }
             })
@@ -376,14 +363,14 @@
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
-                    // Find and remove the news item element
+                    
                     const newsItem = document.querySelector(`[data-news-id="${id}"]`);
                     if (newsItem) {
-                        // Add a fade-out effect
+                    
                         newsItem.style.transition = 'opacity 0.3s ease';
                         newsItem.style.opacity = '0';
                         
-                        // Remove the element after the fade animation
+                        
                         setTimeout(() => {
                             newsItem.remove();
                         }, 300);
@@ -397,10 +384,15 @@
         }
 
         function editNewsItem(id) {
-            // Get the news item data
             const newsItem = document.querySelector(`[data-news-id="${id}"]`);
-            const title = newsItem.querySelector('h3').textContent;
-            const content = newsItem.querySelector('p').textContent;
+            if (!newsItem) {
+                console.error('News item not found:', id);
+                return;
+            }
+
+            // Get the news item data
+            const title = newsItem.querySelector('h3').textContent.trim();
+            const content = newsItem.querySelector('p').textContent.trim();
 
             // Populate the modal with existing data
             document.getElementById('newsModal').classList.remove('hidden');
@@ -422,15 +414,15 @@
             methodInput.value = 'PUT';
         }
 
-        function filterFaqs(category) {
-            // Update filter buttons
-            document.querySelectorAll('.faq-filter').forEach(button => {
-                if (button.textContent.trim() === category || (category === 'all' && button.textContent.trim() === 'All')) {
-                    button.classList.remove('bg-gray-200', 'text-gray-700');
+        function filterFAQs(category) {
+            // Update active state of filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                if (button.dataset.category === category) {
+                    button.classList.remove('bg-gray-100', 'text-gray-700');
                     button.classList.add('bg-orange-500', 'text-white');
                 } else {
                     button.classList.remove('bg-orange-500', 'text-white');
-                    button.classList.add('bg-gray-200', 'text-gray-700');
+                    button.classList.add('bg-gray-100', 'text-gray-700');
                 }
             });
 
@@ -443,6 +435,11 @@
                 }
             });
         }
+
+        // Set initial active state
+        document.addEventListener('DOMContentLoaded', function() {
+            filterFAQs('all');
+        });
 
         function deleteFaqItem(id) {
             if (!confirm('Are you sure you want to delete this FAQ item?')) {
@@ -465,7 +462,7 @@
                     // Find and remove the FAQ item element
                     const faqItem = document.querySelector(`[data-faq-id="${id}"]`);
                     if (faqItem) {
-                        // Add a fade-out effect
+                        //fade-out effect
                         faqItem.style.transition = 'opacity 0.3s ease';
                         faqItem.style.opacity = '0';
                         
@@ -483,16 +480,16 @@
         }
 
         function editFaqItem(id) {
-            // Get the FAQ item data
             const faqItem = document.querySelector(`[data-faq-id="${id}"]`);
             if (!faqItem) {
-                console.error('FAQ item not found');
+                console.error('FAQ item not found:', id);
                 return;
             }
 
-            const question = faqItem.querySelector('h3').textContent;
-            const answer = faqItem.querySelector('p').textContent;
-            const category = faqItem.querySelector('span').textContent;
+            // Get the FAQ item data
+            const question = faqItem.querySelector('h3').textContent.trim();
+            const answer = faqItem.querySelector('p').textContent.trim();
+            const category = faqItem.querySelector('span').textContent.trim();
 
             // Populate the modal with existing data
             document.getElementById('faqModal').classList.remove('hidden');

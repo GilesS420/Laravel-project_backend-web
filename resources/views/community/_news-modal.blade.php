@@ -4,8 +4,9 @@
         
         <div class="relative bg-white rounded-lg max-w-lg w-full">
             <div class="p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Add News Item</h3>
-                <form id="newsForm" action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
+                <h3 class="text-lg font-medium text-gray-900 mb-4" id="newsModalTitle">Add News Item</h3>
+                <form id="newsForm" method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data" 
+                      onsubmit="setTimeout(function(){ window.location.reload(); }, 100)">
                     @csrf
                     <div class="mb-4">
                         <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
@@ -31,4 +32,48 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+<script>
+function openNewsModal() {
+    document.getElementById('newsForm').reset();
+    document.getElementById('newsModalTitle').textContent = 'Add News Item';
+    document.getElementById('newsForm').action = "{{ route('news.store') }}";
+    const methodInput = document.getElementById('newsForm').querySelector('input[name="_method"]');
+    if (methodInput) methodInput.remove();
+    document.getElementById('newsModal').classList.remove('hidden');
+}
+
+function editNewsItem(id) {
+    const newsItem = document.querySelector(`[data-news-id="${id}"]`);
+    if (!newsItem) return;
+
+    const title = newsItem.querySelector('h3').textContent.trim();
+    const content = newsItem.querySelector('p').textContent.trim();
+
+    document.getElementById('newsModalTitle').textContent = 'Edit News Item';
+    document.getElementById('title').value = title;
+    document.getElementById('content').value = content;
+    
+    const form = document.getElementById('newsForm');
+    form.action = `{{ url('/news') }}/${id}`;
+    
+    const existingMethodInput = form.querySelector('input[name="_method"]');
+    if (existingMethodInput) existingMethodInput.remove();
+    
+    const methodInput = document.createElement('input');
+    methodInput.type = 'hidden';
+    methodInput.name = '_method';
+    methodInput.value = 'PUT';
+    form.appendChild(methodInput);
+    
+    document.getElementById('newsModal').classList.remove('hidden');
+}
+
+function closeNewsModal() {
+    document.getElementById('newsModal').classList.add('hidden');
+    document.getElementById('newsForm').reset();
+    const methodInput = document.getElementById('newsForm').querySelector('input[name="_method"]');
+    if (methodInput) methodInput.remove();
+}
+</script> 

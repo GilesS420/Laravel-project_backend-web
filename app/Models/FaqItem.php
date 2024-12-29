@@ -16,6 +16,6 @@ class FaqItem extends Model
 
     public function contact()
     {
-        return $this->hasOne(Contact::class, 'faq_id');
+        return $this->hasOne(Contact::class, 'category', 'faq_id');
     }
 }

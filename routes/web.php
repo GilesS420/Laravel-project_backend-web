@@ -89,4 +89,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/weapons/{weapon}/favorite', [WeaponController::class, 'toggleFavorite'])->name('weapons.toggle-favorite');
 });
 
+Route::post('/faq/categories', [FaqController::class, 'storeCategory'])->name('faq.categories.store');
+
 require __DIR__.'/auth.php';
