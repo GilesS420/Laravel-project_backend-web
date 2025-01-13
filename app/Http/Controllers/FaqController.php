@@ -8,15 +8,22 @@ use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
+    public function create()
+    {
+        $categories = FaqCategory::all();
+        return view('community._faq-modal', compact('categories'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'question' => 'required|max:255',
-            'answer' => 'required',
-            'category' => 'required|exists:faq_categories,name'
+            'question' => 'required|string',
+            'answer' => 'required|string',
+            'category' => 'required|string'
         ]);
 
         FaqItem::create($validated);
+
         return redirect()->back()->with('success', 'FAQ item created successfully');
     }
 
@@ -49,13 +56,11 @@ class FaqController extends Controller
 
     public function storeCategory(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:faq_categories,name'
+        $validated = $request->validate([
+            'name' => 'required|string|unique:faq_categories,name'
         ]);
 
-        $category = FaqCategory::create([
-            'name' => $request->name
-        ]);
+        $category = FaqCategory::create($validated);
 
         return response()->json([
             'success' => true,

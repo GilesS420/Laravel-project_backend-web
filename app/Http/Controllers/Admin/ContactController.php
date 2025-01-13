@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\FaqItem;
+use App\Models\FaqCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,8 @@ class ContactController extends Controller
 
     public function show(Contact $contact)
     {
-        return view('admin.contacts.show', compact('contact'));
+        $categories = FaqCategory::all();
+        return view('admin.contacts.show', compact('contact', 'categories'));
     }
 
     public function respond(Request $request, Contact $contact)

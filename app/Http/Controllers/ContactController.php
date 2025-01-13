@@ -23,7 +23,7 @@ class ContactController extends Controller
         ]);
 
         $contact = Contact::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'subject' => $validated['subject'],
             'message' => $validated['message'],
             'is_answered' => false
@@ -36,7 +36,7 @@ class ContactController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $contacts = Contact::where('user_id', $user->id)
                           ->orderBy('created_at', 'desc')
                           ->get();
